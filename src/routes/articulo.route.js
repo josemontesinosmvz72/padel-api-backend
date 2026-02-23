@@ -4,12 +4,11 @@ const articuloController = require('../controllers/articulo.controller');
 const { route } = require("express/lib/application");
 
 router.get('/', articuloController.getAllArticulos);
+router.get('/paged', articuloController.getAllArticulos);
+router.get('/detail/:id', articuloController.getArticuloPorId);
 router.get('/categoria/:categoria', articuloController.getArticulosPorCategoria);
-router.get('/subcategoria/:subcategoria', articuloController.getArticulosPorSubcategoria);
-router.get('/:id', articuloController.getArticuloPorId);
-router.post('/', articuloController.addArticulo);
-router.put('/:id', articuloController.putArticulo);
-router.patch('/:id', articuloController.patchArticulo);
-router.delete('/:id', articuloController.deleteArticulo);
+router.post('/addOne', articuloController.addArticulo);
+router.patch('/updateOne/:id', articuloController.patchArticulo);
+router.delete('/deleteOne/:id', articuloController.deleteArticulo);
 
 module.exports = router;

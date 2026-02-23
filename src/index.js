@@ -17,39 +17,36 @@ app.use(morgan('dev'));
 app.use('/api/v1/articulos', require('./routes/articulo.route'));
 
 app.get('/', (req, res) => {
+    const base = "https://padel-shop.onrender.com/api/v1/articulos";
     res.json({
         endpoints: {
             all: {
                 method: "GET",
-                uri: "/api/v1/articulos"
+                uri: base + "/all"
             },
-            oneArticulo: {
+            paged: {
                 method: "GET",
-                uri: "/api/v1/articulos/:id"
+                uri: base + "/paged?page=1&limit=10"
             },
-            articulosByCategoria: {
+            detail: {
                 method: "GET",
-                uri: "/api/v1/articulos/categoria/:categoria"
+                uri: base + "/detail/:id"
             },
-            articulosBySubcategoria: {
+            byCategoria: {
                 method: "GET",
-                uri: "/api/v1/articulos/subcategoria/:subcategoria"
+                uri: base + "/categoria/:categoria"
             },
-            insert: {
+            addOne: {
                 method: "POST",
-                uri: "/api/v1/articulos"
+                uri: base + "/addOne"
             },
-            update: {
-                method: "PUT",
-                uri: "/api/v1/articulos/:id"
-            },
-            patch: {
+            updateOne: {
                 method: "PATCH",
-                uri: "/api/v1/articulos/:id"
+                uri: base + "/updateOne/:id"
             },
-            delete: {
+            deleteOne: {
                 method: "DELETE",
-                uri: "/api/v1/articulos/:id"
+                uri: base + "/deleteOne/:id"
             }
         }
     });

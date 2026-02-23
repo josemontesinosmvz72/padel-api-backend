@@ -16,7 +16,7 @@ app.use(morgan('dev'));
 // Routes
 app.use('/api/v1/articulos', require('./routes/articulo.route'));
 
-app.get('', (req, res) => {
+app.get('/', (req, res) => {
     res.json({
         endpoints: {
             all: {

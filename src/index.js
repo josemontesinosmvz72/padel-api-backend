@@ -17,7 +17,7 @@ app.use(morgan('dev'));
 app.use('/api/v1/articulos', require('./routes/articulo.route'));
 
 app.get('/', (req, res) => {
-    const base = "https://padel-shop.onrender.com/api/v1/articulos";
+    const base = req.protocol + '://' + req.get('host') + '/api/v1/articulos';
     res.json({
         endpoints: {
             all: {

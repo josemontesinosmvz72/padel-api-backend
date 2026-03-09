@@ -7,6 +7,7 @@ router.get('/all', articuloController.getAllArticulos);
 router.get('/paged', articuloController.getAllArticulos);
 router.get('/detail/:id', articuloController.getArticuloPorId);
 router.get('/categoria/:categoria', articuloController.getArticulosPorCategoria);
+router.get('/subcategoria/:subcategoria', articuloController.getArticulosPorSubcategoria);
 router.post('/addOne', articuloController.addArticulo);
 router.patch('/updateOne/:id', articuloController.patchArticulo);
 router.delete('/deleteOne/:id', articuloController.deleteArticulo);

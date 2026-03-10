@@ -12,8 +12,8 @@ const articuloSchema = new mongoose.Schema({
     },
     subcategoria: { type: String }, // ej: 'camisetas', 'pantalones', 'grips'
     marca: { type: String, required: true },
-    precio: { type: Number, required: true },
-
+    precioRebajado: { type: Number, required: true },
+    precio: {type: Number, required: true},
 
     // Campos opcionales según la categoría
     talla: { type: String }, // Para ropa y calzado

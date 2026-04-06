@@ -15,6 +15,7 @@ app.use(morgan('dev'));
 
 // Routes
 app.use('/api/v1/articulos', require('./routes/articulo.route'));
+app.use('/api/v1/users', require('./routes/user.route'));
 
 app.get('/', (req, res) => {
     const base = req.protocol + '://' + req.get('host') + '/api/v1/articulos';

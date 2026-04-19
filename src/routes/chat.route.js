@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+const Groq = require('groq-sdk'); // Cambio de librería
 const Chat = require('../models/chatbot.model');
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 router.post('/message', async (req, res) => {
   try {
@@ -12,14 +12,22 @@ router.post('/message', async (req, res) => {
     let chat = await Chat.findOne({ sessionId }) || new Chat({ sessionId, messages: [] });
 
     const history = chat.messages.map(m => ({
-      role: m.role,
-      parts: [{ text: m.text }]
+      role: m.role === 'model' ? 'assistant' : 'user',
+      content: m.text
     }));
 
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
-    const chatSession = model.startChat({ history });
-    const result = await chatSession.sendMessage(message);
-    const reply = result.response.text();
+
+    const chatCompletion = await groq.chat.completions.create({
+      messages: [
+        { role: "system", content: "Eres un asistente útil." },
+        ...history,
+        { role: "user", content: message }
+      ],
+      model: "llama-3.3-70b-versatile",
+    });
+
+    const reply = chatCompletion.choices[0]?.message?.content || "";
+
 
     chat.messages.push({ role: 'user', text: message });
     chat.messages.push({ role: 'model', text: reply });
@@ -27,9 +35,11 @@ router.post('/message', async (req, res) => {
 
     res.json({ reply, sessionId });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: error.message });
   }
 });
+
 
 router.get('/history/:sessionId', async (req, res) => {
   try {

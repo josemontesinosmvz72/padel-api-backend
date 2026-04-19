@@ -4,14 +4,12 @@ const articuloController = require('../controllers/articulo.controller');
 const { route } = require("express/lib/application");
 const { validarJWT } = require('../middleware-auth/validation.jwt');
 
-// Rutas publicas para cualquier user
 router.get('/all', articuloController.getAllArticulos);
 router.get('/paged', articuloController.getAllArticulos);
 router.get('/detail/:id', articuloController.getArticuloPorId);
 router.get('/categoria/:categoria', articuloController.getArticulosPorCategoria);
 router.get('/subcategoria/:subcategoria', articuloController.getArticulosPorSubcategoria);
 
-// Rutas privadas users autenticados
 router.post('/addOne', validarJWT, articuloController.addArticulo);
 router.patch('/updateOne/:id', validarJWT, articuloController.patchArticulo);
 router.delete('/deleteOne/:id', validarJWT, articuloController.deleteArticulo);

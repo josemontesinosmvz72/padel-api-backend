@@ -14,7 +14,7 @@ app.use(morgan('dev'));
 
 app.use('/api/v1/articulos', require('./routes/articulo.route'));
 app.use('/api/v1/users', require('./routes/user.route'));
-app.use('/api/chat', require('./routes/chat.route'));
+app.use('/api/v1/reservas', require('./routes/reserva.route'));
 
 app.get('/', (req, res) => {
     const base = req.protocol + '://' + req.get('host') + '/api/v1/articulos';

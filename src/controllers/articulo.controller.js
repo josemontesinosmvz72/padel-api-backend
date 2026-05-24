@@ -17,6 +17,35 @@ articuloController.getAllArticulos = async (req, res) => {
         })
 };
 
+articuloController.getArticulosPaginados = async (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    try {
+        const total = await Articulo.countDocuments();
+        const articulos = await Articulo.find()
+            .skip(skip)
+            .limit(limit);
+
+        res.status(200).json({
+            status: true,
+            total,
+            page,
+            limit,
+            totalPages: Math.ceil(total / limit),
+            articulos
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: false,
+            message: err.message
+        });
+    }
+};
+
+
+
 articuloController.getArticulosPorCategoria = async (req, res) => {
     await Articulo.find({categoria: req.params.categoria})
         .then(data => {

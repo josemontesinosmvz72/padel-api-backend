@@ -5,7 +5,7 @@ const { route } = require("express/lib/application");
 const { validarJWT } = require('../middleware-auth/validation.jwt');
 
 router.get('/all', articuloController.getAllArticulos);
-router.get('/paged', articuloController.getAllArticulos);
+router.get('/paged', articuloController.getArticulosPaginados);
 router.get('/detail/:id', articuloController.getArticuloPorId);
 router.get('/categoria/:categoria', articuloController.getArticulosPorCategoria);
 router.get('/subcategoria/:subcategoria', articuloController.getArticulosPorSubcategoria);

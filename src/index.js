@@ -1,9 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const cors = require('cors');
 const morgan = require('morgan');
-const { mongoose, connectDB } = require('./database');
-require('dotenv').config();
+const { connectDB } = require('./database');
 
 app.set('port', process.env.PORT || 3000);
 

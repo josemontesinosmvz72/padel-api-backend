@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const morgan = require('morgan');
-const {mongoose} = require('./database');
+const { mongoose, connectDB } = require('./database');
 require('dotenv').config();
 
 app.set('port', process.env.PORT || 3000);
@@ -10,6 +10,11 @@ app.set('port', process.env.PORT || 3000);
 app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
+
+app.use(async (req, res, next) => {
+    await connectDB();
+    next();
+});
 
 
 app.use('/api/v1/articulos', require('./routes/articulo.route'));

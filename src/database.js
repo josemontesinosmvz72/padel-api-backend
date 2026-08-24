@@ -1,15 +1,30 @@
 const mongoose = require('mongoose');
-const router = require("./routes/articulo.route");
 require('dotenv').config();
 
-const URL = process.env.URL;
+const MONGODB_URI = process.env.MONGODB_URI;
 
-mongoose.connect(URL)
-    .then(() => {
-        console.log('Connected to DB');
-    })
-    .catch ((err) => {
-        console.error(err);
-    })
+let cached = global._mongooseConnection;
 
-module.exports = mongoose;
+if (!cached) {
+    cached = global._mongooseConnection = { conn: null, promise: null };
+}
+
+async function connectDB() {
+    if (cached.conn) {
+        return cached.conn;
+    }
+
+    if (!cached.promise) {
+        cached.promise = mongoose.connect(MONGODB_URI).then((m) => {
+            console.log('Connected to DB');
+            return m;
+        });
+    }
+
+    cached.conn = await cached.promise;
+    return cached.conn;
+}
+
+connectDB().catch((err) => console.error(err));
+
+module.exports = { mongoose, connectDB };

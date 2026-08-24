@@ -60,6 +60,11 @@ app.use((req, res) => {
     res.status(404).json({message: 'Endpoint not found'});
 });
 
+app.use((err, req, res, next) => {
+    console.error('Error:', err.message);
+    res.status(500).json({ status: false, message: err.message });
+});
+
 if (process.env.VERCEL !== '1') {
     app.listen(app.get('port'), () => {
         console.log('Listening on port ' + app.get('port'));
